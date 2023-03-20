@@ -1,0 +1,73 @@
+# © 2022 Nokia.
+#
+# This code is a Contribution to the gNMIc project (“Work”) made under the Google Software Grant and Corporate Contributor License Agreement (“CLA”) and governed by the Apache License 2.0.
+# No other rights or licenses in or to any of Nokia’s intellectual property are granted for any other purpose.
+# This code is provided on an “as is” basis without any warranties of any kind.
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: collectors
+
+mgmt:
+  ipv4_subnet: 192.168.1.0/24
+
+topology:
+  defaults:
+    kind: srl
+
+  kinds:
+    srl:
+      image: ghcr.io/nokia/srlinux
+
+  nodes:
+    leaf1:
+
+    telegraf:
+      kind: linux
+      image: telegraf:latest
+      ports:
+        - 9273:9273
+      binds:
+        - ./telegraf/:/etc/telegraf/
+        #- ./clab-collectors/.tls/ca/:/etc/telegraf/ssl-ca
+        #- ./clab-collectors/.tls/telegraf/:/etc/telegraf/ssl-cert
+      cmd: '-config /etc/telegraf/telegraf.conf $TELEGRAF_OPTS'
+
+    gnmic:
+      kind: linux
+      image: ghcr.io/openconfig/gnmic
+      binds:
+        - ./gnmic.yaml:/app/gnmic.yaml:ro
+        - /var/run/docker.sock:/var/run/docker.sock
+      cmd: '--config /app/gnmic.yaml --log subscribe'
+    
+    consul-agent:
+      kind: linux
+      image: consul:latest
+      ports:
+        - 8500:8500
+        - 8600:8600/udp
+      cmd: 'agent -server -ui -bind=127.0.0.1 -node=server-1 -bootstrap-expect=1 -client=0.0.0.0'
+    
+    prometheus:
+      kind: linux
+      image: prom/prometheus:latest
+      user: 65534:65534
+      ports:
+        - 9090:9090
+      binds:
+        - ./prometheus/:/etc/prometheus/
+      cmd: |
+        --config.file=/etc/prometheus/prometheus.yaml
+        --web.console.libraries=/usr/share/prometheus/console_libraries
+        --web.console.templates=/usr/share/prometheus/consoles
+        --log.level=debug
+
+    grafana:
+      kind: linux
+      image: grafana/grafana:latest
+      binds:
+        - grafana/datasources/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
+        #- grafana/dashboards/:/var/lib/grafana/dashboards
+      ports:
+        - 3000:3000
