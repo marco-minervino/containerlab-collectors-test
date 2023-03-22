@@ -37,11 +37,4 @@ outputs:
     strings-as-labels: true
     service-registration:
       address: clab-collectors-consul-agent:8500
-    event-processors:
-      - group_by_interface
 
-processors:
-  group_by_interface:
-    event-group-by:
-      tags:
-        - interface_name
