@@ -26,7 +26,7 @@ subscriptions:
       - srl_nokia-interfaces:/
     stream-mode: sample
     sample-interval: 10s
-    encoding: proto
+    encoding: json_ietf
 
 outputs:     
   prom-output:
