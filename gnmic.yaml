@@ -23,11 +23,10 @@ subscriptions:
   # e.g:
   sub1:
     paths:
-      - /interface/statistics
-      - /interface/description
+      - srl_nokia-interfaces:/
     stream-mode: sample
     sample-interval: 10s
-    encoding: ascii
+    encoding: proto
 
 outputs:     
   prom-output:
