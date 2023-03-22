@@ -23,7 +23,7 @@ subscriptions:
   # e.g:
   sub1:
     paths:
-      - srl_nokia-interfaces:/
+      - srl_nokia-interfaces:/interface
     stream-mode: sample
     sample-interval: 10s
     encoding: json_ietf
