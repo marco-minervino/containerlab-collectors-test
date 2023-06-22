@@ -25,6 +25,8 @@ topology:
     telegraf:
       kind: linux
       image: telegraf:latest
+      certificate:
+        issue: true
       ports:
         - 9273:9273
       binds:
