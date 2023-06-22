@@ -9,7 +9,7 @@
 name: collectors
 
 mgmt:
-  ipv4_subnet: 192.168.1.0/24
+  ipv4-subnet: 192.168.1.0/24
 
 topology:
   defaults:
