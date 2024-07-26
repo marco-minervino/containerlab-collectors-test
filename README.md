@@ -2,7 +2,7 @@
 
 This containerlab was forked from [this example](https://github.com/karimra/gnmic/tree/main/examples/deployments/1.single-instance/4.prometheus-output) in order to play with gnmic and Telegraf collectors.
 
-## How to start me
+## How to
 
 1. install containerlab
 2. stand up the lab instance
