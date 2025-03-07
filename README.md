@@ -7,13 +7,13 @@ This containerlab was forked from [this example](https://github.com/karimra/gnmi
 1. install containerlab
 2. stand up the lab instance
 
-`sudo containerlab deploy --topo prometheus.clab.yml`
+`sudo containerlab deploy --topo prometheus.clab.yaml`
 
 On the first run the telegraf container will always fail as it won't be able to mount the certificates since they're created on the first run. So a reboot of the lab and an edit of the topology file is needed:
 
-- `sudo containerlab destroy --topo prometheus.clab.yml`
+- `sudo containerlab destroy --topo prometheus.clab.yaml`
 
-- remove the `#` from the Telegraf binding inside `prometheus.clab.yml`
+- remove the `#` from the Telegraf binding inside `prometheus.clab.yaml`
 
 ```
         #- ./clab-collectors/.tls/ca/:/etc/telegraf/ssl-ca
@@ -22,4 +22,4 @@ On the first run the telegraf container will always fail as it won't be able to 
 
 - save the file
 
-- `sudo containerlab deploy --topo prometheus.clab.yml`
+- `sudo containerlab deploy --topo prometheus.clab.yaml`

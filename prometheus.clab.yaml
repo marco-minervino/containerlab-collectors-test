@@ -9,7 +9,7 @@
 name: collectors
 
 mgmt:
-  ipv4-subnet: 192.168.1.0/24
+  ipv4-subnet: 192.168.60.0/24
 
 topology:
   defaults:
@@ -21,6 +21,7 @@ topology:
 
   nodes:
     leaf1:
+      kind: srl
 
     telegraf:
       kind: linux
@@ -33,11 +34,13 @@ topology:
         - ./telegraf/:/etc/telegraf/
         #- ./clab-collectors/.tls/ca/:/etc/telegraf/ssl-ca
         #- ./clab-collectors/.tls/telegraf/:/etc/telegraf/ssl-cert
-      cmd: '-config /etc/telegraf/telegraf.conf $TELEGRAF_OPTS'
+      cmd: '-config /etc/telegraf/telegraf.conf'
 
     gnmic:
       kind: linux
       image: ghcr.io/openconfig/gnmic
+      ports:
+        - 9804:9804
       binds:
         - ./gnmic.yaml:/app/gnmic.yaml:ro
         - /var/run/docker.sock:/var/run/docker.sock
